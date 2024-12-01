@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <title>agromart - admin</title>
+    <style>
+        *{
+           margin: 0;
+           box-sizing: border-box;
+           font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        .container{
+            flex-direction: column;
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+        }
+        .head{
+            height: 10%;
+            margin: 0;
+        }
+        .main{
+            display: flex;
+            border-radius: 50px;
+            width: 100vw;
+            padding: 10px;
+            margin: 0;
+            justify-content: center;
+        }
+        .head{
+            display: flex;
+        }
+        .users{
+            display: flex;
+        }
+        .left{
+            width: 40%;
+            text-align: center;
+            box-shadow: 0px 4px 8px rgba(79, 112, 255, 0.5);
+            margin: 5px;
+            border-radius: 20px;
+        }
+        .right{
+            width: 60%;
+            box-shadow: 0px 4px 8px rgba(79, 112, 255, 0.5);
+            margin: 5px;
+            border-radius: 20px;
+        }
+        input{
+            width: 70%;
+            height: 50px;
+            text-align: center;
+            border: 1px solid black;
+            border-radius: 10px;
+
+        }
+        .admin-submit-btn{
+            margin: 10px;
+            border:5px double dodgerblue;
+            width: 50%;
+            height: 60px;
+            border-radius: 10px;
+            color: dodgerblue;
+            font-size: 30px;
+            font-weight: 400;
+        }
+        .admin-submit-btn:hover{
+            border:none;
+            color: white;
+            background-color: dodgerblue;
+            transition: .5s;
+        }
+        .statusDiv{
+            color: red;
+        }
+        .userContainer{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 5px;
+        }
+        .userCard{
+            height: 350px;
+            width: 300px;
+            background-color: black;
+            color: white;
+            margin: 5px;
+            text-align: center;
+            border-radius: 20px;
+            padding: 20px;
+        }
+        .action-button{
+            border: none;
+            border-radius: 20px;
+            width: 150px;
+            height: 50px;
+            color: white;
+            background-color: orangered;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="head">
+            <div class="logo"></div>
+            <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                <div class="container-fluid">
+                  <a class="navbar-brand" href="#"><h1>AgroMart</h1></a>
+                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div class="collapse navbar-collapse" id="navbarScroll">
+                    <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                      <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/admindash/">Categories</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/adminproducts/">Products</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="logout()">Logout</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </nav>
+        </div>
+        <div class="main">
+            <div class="users">
+                <div class="left">
+                    <div class="admins-panel">
+                        <h1>Register Admin</h1>
+                        <div id="statusDiv" class="statusDiv"></div>
+                        <div class="admin-registry">
+                            <div class="fname"> 
+                                <label for="fname">First Name</label><br>
+                                <input type="text" name="fname" id="admin-fname" placeholder="First Name">
+                            </div>
+                            <div class="lname">
+                                <label for="lname">Last Name</label><br>
+                                <input type="text" name="lname" id="admin-lname" placeholder="Last Name">
+                            </div>
+                            <div class="phone">
+                                <label for="phone">Phone</label><br>
+                                <input type="text" name="phone" id="admin-phone" placeholder="Phone">
+                            </div>
+                            <div class="email">
+                                <label for="email">Email</label><br>
+                                <input type="email" name="email" id="admin-email" placeholder="Email">
+                            </div>
+                            <div class="username">
+                                <label for="username">Username</label><br>
+                                <input type="text" name="username" id="admin-username" placeholder="Username">
+                            </div>
+                            <div class="password">
+                                <label for="password">Password</label><br>
+                                <input type="password" name="password" id="admin-password" placeholder="Password">
+                            </div>
+                            <div class="confpass">
+                                <label for="confirmPass">Confirm Password</label><br>
+                                <input type="password" name="confirmPass" id="admin-confirmPass" placeholder="Renter password">
+                            </div>
+                            <button type="button" class="admin-submit-btn" onclick="createAdmin()">Create Admin</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="right">
+                    <div id="userContainer" class="userContainer"></div>
+                </div>
+            </div>
+        </div>
+        <div class="footer"></div>
+    </div>
+    <script>
+        const getCookie=(name)=> {
+            const cookieValue = document.cookie
+            .split(';')
+            .map(cookie => cookie.trim())
+            .find(cookie => cookie.startsWith(`${name}=`))
+            if (cookieValue) {
+                return cookieValue.split('=')[1];
+            }
+            return null;
+        }
+        const getAllUsers =async()=>{
+            try {
+                const Container = document.getElementById('userContainer')
+                const data = await fetch('/viewusers/');
+                const usersData = await data.json()
+                const users = usersData.users
+                users.forEach(user => {
+                    if(user.userId == localStorage.getItem('user')){
+                        return
+                    }
+                    const card = document.createElement('div')
+                    const username = document.createElement('h2')
+                    const name = document.createElement('p')
+                    const role = document.createElement('p')
+                    const phone = document.createElement('p')
+                    const email = document.createElement('p')
+                    const deleteBtn = document.createElement('button')
+
+                    card.classList.add('userCard')
+                    username.classList.add('usernameText')
+                    name.classList.add('p-type')
+                    role.classList.add('p-type')
+                    phone.classList.add('p-type')
+                    email.classList.add('p-type')
+                    deleteBtn.classList.add('action-button')
+                    
+                    username.textContent = user.username
+                    name.textContent = `${user.first_name} ${user.last_name}`
+                    role.textContent = user.role
+                    phone.textContent = user.phone
+                    email.textContent = user.email
+                    deleteBtn.textContent = 'Delete'
+
+                    deleteBtn.addEventListener('click',()=>{
+                        deleteUser(user.userId)
+                    })
+                    card.appendChild(username)
+                    card.appendChild(name)
+                    card.appendChild(role)
+                    card.appendChild(phone)
+                    card.appendChild(email)
+                    card.appendChild(deleteBtn)
+                    Container.appendChild(card)
+                    
+                });
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        const deleteUser= async (userId)=>{
+            const deleteData = JSON.stringify({'userId':userId})
+            const response = await fetch('/admindeleteuser/',{
+                method:'POST',
+                headers:{
+                    'Content-Type':'aplication/json',
+                    'X-CSRFToken':getCookie('csrftoken')
+                },
+                body:deleteData
+            })
+            if(response.ok){
+                window.location.reload()
+                return
+            }
+            const errorText = await response.json()
+            console.log(errorText.error)
+        }
+        const createAdmin=async()=>{
+            try{
+                const fname = document.getElementById('admin-fname').value
+                const lname = document.getElementById('admin-lname').value
+                const phone = document.getElementById('admin-phone').value
+                const email = document.getElementById('admin-email').value
+                const username = document.getElementById('admin-username').value
+                const password = document.getElementById('admin-password').value
+                const confPass = document.getElementById('admin-confirmPass').value
+                const statusDiv = document.getElementById('statusDiv')
+
+                if(fname == ''||lname == ''||phone==''||email==''||username==''||password==''||confPass==''){
+                    alert('Please fill in all of the details')
+                    return
+                }
+                if(password != confPass){
+                    alert('Passwords Do not match')
+                    return
+                }
+                const userObj = JSON.stringify({
+                    "first_name":fname,
+                    "last_name":lname,
+                    "phone":phone,
+                    "email":email,
+                    "username":username,
+                    "role":"admin",
+                    "password":password
+                })
+                const response = await fetch('/createuser/',{
+                    method:'POST',
+                    headers:{
+                        'Content-Type':'application/json',
+                        'X-CSRFToken':getCookie('csrftoken')
+                    },
+                    body:userObj
+                })
+                if(response.ok){
+                    alert('Admin sucessfully added')
+                    window.location.reload()
+                }else{
+                    const errorText = await response.text()
+                    statusDiv.textContent = errorText
+                }
+            }catch(error){
+                alert(error)
+                console.log(error)
+            }
+        }
+        const logout =()=>{
+            localStorage.clear()
+            window.location.href='/'
+        }
+        getAllUsers()
+    </script>
+</body>
+</html>

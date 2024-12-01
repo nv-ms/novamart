@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>agromart</title>
+    <link rel="shortcut icon" href="../../../static/agromart/images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="../../../static/agromart/styles/buyer/cart.css">
+</head>
+<body>
+    <div class="shippinginfo" id="shipping_modal">
+        <div class="shipping-card">
+            <div class="card-container">
+                <div class="shipping-card-left">
+                    <p>Please Enter your shipping details</p>
+                    <div class="country">
+                      <input type="text" name="country" id="country" placeholder="country" class="shipping-modal-input">
+                    </div>
+                    <div class="name">
+                      <div class="fname">
+                        <input type="text" name="fname" id="fname" placeholder="firstname" class="shipping-modal-input">
+                      </div>
+                      <div class="lname">
+                        <input type="text" name="lname" id="lname" placeholder="lastname" class="shipping-modal-input">
+                      </div>
+                    </div>
+                    <div class="city">
+                        <input type="text" name="city" id="city" placeholder="city" class="shipping-modal-input">
+                    </div>
+                    <div class="province">
+                      <input type="text" name="province" id="province" placeholder="province/state/town" class="shipping-modal-input">
+                    </div>
+                    <div class="zipcode">
+                      <input type="number" name="zipcode" id="zipcode" placeholder="zipcode" class="shipping-modal-input">
+                    </div>
+                    <div class="phone">
+                      <input type="text" name="phone" id="phone" placeholder="phone" class="shipping-modal-input">
+                    </div>
+                </div>
+                <div class="shipping-card-right">
+                    <p>Product(s)</p>
+                    <div class="shipping-products" id="checkout_section"></div>
+                </div>
+            </div>
+            <div class="modal-control-buttons">
+                <button type="button" class="modal-control-button" onclick="closeModal()">Close</button>
+                <button type="button" class="modal-control-button" onclick="checkOut()">Complete Transaction</button>
+            </div>
+        </div>   
+    </div>
+    <header>
+        <div class="logo">
+            <img src="../../../static/agromart/images/logo.png" alt="">
+        </div>
+        <div class="links-item">
+            <div class="price-link">
+                <div class="price-icon"></div>
+                <div class="price-link-text">$ 200</div>
+            </div>
+            <a class="link-item home-link" href="/products"></a>
+            <!-- <a class="link-item " href="/register"></a> -->
+            <a class="link-item cart-link" href="/cart/"></a>
+            <a class="link-item profile-link" href="/buyerprofile/"></a>
+        </div>
+    </header>
+    <main>
+        <h1>Cart</h1>
+        <div class="products">
+            <div class="asideLeft">
+                <div class="products">
+                    <div id="productContainer" class="productContainer"></div>
+                </div>
+            </div>
+        </div>
+        <div class="products-buttons-container">
+            <button type="button" id="clearBtn" onclick="clearCart()" class="cart-action-button">Clear Cart</button>
+            <button type="button" id="checkout" class="cart-action-button" onclick="openModal()" id="checkOut">Checkout</button>    
+        </div>   
+    </main>
+    <footer>
+        <div class="footer">
+            <div class="footer-panel">
+                <div class="footer-title">
+                    <img src="../../../static/agromart/images/logo.png" alt="">
+                </div>
+                <div class="footer-content">
+                    <div class="content">(603) 431-5406</div>
+                    <div class="content">info@agromart.com</div>
+                    <div class="content">306 South St</div>
+                </div>
+            </div>
+            <div class="footer-panel">
+                <div class="footer-title">
+                    <h1>Quick Links</h1>
+                </div>
+                <div class="footer-content">
+                    <div class="content">Sitemap</div>
+                    <div class="content">About</div>
+                    <div class="conten">Contact</div>
+                </div>
+            </div>
+            <div class="footer-panel">
+                <div class="footer-title">
+                    <h1>NewsLetter</h1>
+                </div>
+                <div class="footer-content">
+                    <div class="content">
+                        <input type="email" name="email" id="email" placeholder="johndoe@email.com">
+                        <button type="button">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>All Rights reserved</p>
+        </div>
+    </footer>
+   <script src="../../../static/agromart/js/buyer/cart.js"></script>
+</body>
+</html>

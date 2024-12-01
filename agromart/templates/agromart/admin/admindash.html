@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <title>agromart - admin</title>
+    <style>
+        *{
+           margin: 0;
+           box-sizing: border-box;
+           font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        .container{
+            flex-direction: column;
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+        }
+        .head{
+            height: 10%;
+            margin: 0;
+        }
+        .main{
+            display: flex;
+            border-radius: 50px;
+            width: 100vw;
+            padding: 10px;
+            margin: 0;
+            box-shadow: 0 4px 8px rgba(1, 1, 0, 0.3);
+        }
+        .head{
+            display: flex;
+        }
+        .productCategories{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .addcategory{
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            padding: 5px;
+            margin: 20px;
+            border-radius: 10px;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(1, 1, 0, 0.3);
+            height: 100%;
+            width: 40%;
+        }
+        .categoryContainer{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(1, 1, 0, 0.3);
+            border-radius: 20px;
+            padding: 10px;
+        }
+        .categoryCard{
+            height: 200px;
+            width: 300px;
+            background-color: black;
+            color: white;
+            margin: 5px;
+            text-align: center;
+            border-radius: 20px;
+            padding: 20px;
+        }
+        .addCatBtn{
+            margin-left: 5px;
+            border-radius: 20px;
+            margin: none;
+            outline: none;
+            border: none;
+            background-color: #007bff;
+            margin: 10px;
+            color: white;
+            width: 75px;
+            height: 30px;
+        }
+        .action-button{
+            border: none;
+            border-radius: 20px;
+            width: 150px;
+            height: 50px;
+            color: white;
+            background-color: orangered;
+        }
+        input{
+            text-align: center;
+            width: 350px;
+            height: 50px;
+            border-radius: 10px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="head">
+            <div class="logo"></div>
+            <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                <div class="container-fluid">
+                  <a class="navbar-brand" href="#"><h1>AgroMart</h1></a>
+                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div class="collapse navbar-collapse" id="navbarScroll">
+                    <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                      <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/adminusers/">Users</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/adminproducts/">Products</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="logout()">Logout</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </nav>
+        </div>
+        <div class="main">
+            <div class="productCategories">
+                <div class="addcategory">
+                    <div class="categoryname">
+                        <label for="name">Category Name</label><br>
+                        <input type="text" name="name" id="categoryName" placeholder="Category Name">
+                    </div>
+                    <button type="button" onclick="addcategory()" class="addCatBtn">Add</button>
+                </div>
+                <div id="categoryContainer" class="categoryContainer"></div>
+            </div>
+            <div class="products">
+                <div class="productContainer" id="productContainer"></div>
+            </div>
+        </div>
+        <div class="footer"></div>
+    </div>
+    <script>
+        const getCookie=(name)=> {
+            const cookieValue = document.cookie
+            .split(';')
+            .map(cookie => cookie.trim())
+            .find(cookie => cookie.startsWith(`${name}=`))
+            if (cookieValue) {
+                return cookieValue.split('=')[1];
+            }
+            return null;
+        }
+        const addcategory=async()=>{
+            try {
+                const name = document.getElementById('categoryName').value
+                if(name == ''){
+                    return
+                }
+                const category = JSON.stringify({'name':name})
+    
+                const response = await fetch('/createcategory/',{
+                    method:'POST',
+                    headers:{
+                        'Content-Type':'application/json',
+                        'X-CSRFToken':getCookie('csrftoken')
+                    },
+                    body:category
+                })
+                if(response.ok){
+                    return
+                }
+                errorText = await response.json()
+                console.log(errorText)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        const getAllCategories =async()=>{
+            try {
+                const Container = document.getElementById('categoryContainer')
+                const data = await fetch('/viewcategories/');
+                const categoriesData = await data.json()
+                const categories = categoriesData.categories
+                categories.forEach(category => {
+                    const card = document.createElement('div')
+                    card.classList.add('categoryCard')
+                    const categoryText = document.createElement('p')
+                    categoryText.textContent = category.categoryname
+                    const deleteBtn = document.createElement('button')
+                    deleteBtn.classList.add('action-button')
+                    deleteBtn.textContent = 'Delete'
+                    deleteBtn.addEventListener('click',()=>{
+                        deleteCategory(category.categoryId)
+                    })
+                    card.appendChild(categoryText)
+                    card.appendChild(deleteBtn)
+                    Container.appendChild(card)
+                    
+                });
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        const deleteCategory= async (categoryId)=>{
+            const deleteData = JSON.stringify({'categoryId':categoryId})
+            console.log("cookie",getCookie('csrftoken'))
+            const response = await fetch('/deletecategory/',{
+                method:'POST',
+                headers:{
+                    'Content-Type':'aplication/json',
+                    'X-CSRFToken':getCookie('csrftoken')
+                },
+                body:deleteData
+            })
+            if(response.ok){
+                window.location.reload()
+                return
+            }
+            const errorText = await response.json()
+            console.log(errorText.error)
+        }
+        const logout =()=>{
+            localStorage.clear()
+            window.location.href='/'
+        }
+        const searchProducts = async() => {
+            const keyword = document.getElementById('searchInput').value.toLowerCase();
+            const data = await fetch('/getallproducts/');
+            const productsData = await data.json();
+            const products = productsData.products;
+
+            const filteredProducts = products.filter(product => {
+                for (const key in product) {
+                    if (typeof product[key] === 'string' && product[key].toLowerCase().includes(keyword)) {
+                        return true;
+                    }
+                }
+                return false;
+            });
+
+            displayProducts(filteredProducts);
+        }
+        searchProducts()
+        const displayProducts=async(products)=>{
+            const productsContainer = document.getElementById('productContainer')
+            productsContainer.innerHTML = ''
+            products.forEach(product => {
+                const productCard = document.createElement('div')
+                const clickable = document.createElement('div')
+                const thumbnail = document.createElement('img')
+                const productDescription = document.createElement('div')
+                const productName = document.createElement('h2')
+                const price = document.createElement('p-type')
+                const quantity = document.createElement('p-type')
+                const buttonsContainer = document.createElement('div')
+                const addCartButton = document.createElement('button')
+                const buyBtn = document.createElement('button')
+
+                productCard.classList.add('product-card')
+                clickable.classList.add('clickable-cont-element')
+                thumbnail.classList.add('img-thumbnail')
+                productDescription.classList.add('prod-description')
+                productName.classList.add('product-name')
+                price.classList.add('product-price')
+                quantity.classList.add('product-quantity')
+                buttonsContainer.classList.add('buttons-container')
+                addCartButton.classList.add('container-btn')
+                buyBtn.classList.add('container-btn')
+                
+                thumbnail.src = product.images[0]
+                productName.textContent = product.name
+                price.textContent = `$ ${product.price}`
+                quantity.textContent = product.quantity + " left"
+                addCartButton.textContent = 'Add To Cart'
+                buyBtn.textContent = 'Buy Now'
+
+                clickable.addEventListener('click',()=>{
+                    window.location.href = `/viewproduct/?productId=${product.productId}`
+                })
+                addCartButton.addEventListener('click',()=>{
+                    addItemsToCart(product.productId)
+                })
+                buyBtn.addEventListener('click',()=>{
+                    window.location.href = `/checkout/?productId=${product.productId}`
+                })
+
+                productDescription.appendChild(productName)
+                productDescription.appendChild(price)
+                productDescription.appendChild(quantity)
+                buttonsContainer.appendChild(addCartButton)
+                buttonsContainer.appendChild(buyBtn)
+                clickable.appendChild(thumbnail)
+                clickable.appendChild(productDescription)
+                productCard.appendChild(clickable)
+                productCard.appendChild(buttonsContainer)
+                productsContainer.appendChild(productCard)
+            });
+        }
+        getAllCategories()
+    </script>
+</body>
+</html>

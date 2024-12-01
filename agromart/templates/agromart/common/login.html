@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agromart</title>
+    <link rel="shortcut icon" href="../../../static/agromart/images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="../../../static/agromart/styles/common/auth.css">
+</head>
+<body>
+    <div class="container">
+        <div class="aside-right">
+            <img src="../../../static/agromart/images/logo.png" alt="">
+        </div>
+        <div class="aside-left">
+            <div class="card">
+                <h1>Login</h1>
+                <div class="input">
+                    <label for="email">Email</label><br>
+                    <input type="email" name="email" id="email">
+                </div>
+                <div class="input">
+                    <label for="password">Password</label><br>
+                    <input type="password" name="password" id="password">
+                </div>
+                <div id="statusDiv" class="statusDiv"></div>
+                <button type="button" onclick="loginUser()">Login</button>
+                <a href="/register" class="link">Dont have an account?</a>
+            </div>
+        </div>
+    </div>
+   <script src="../../../static/agromart/js/common/login.js"></script>
+</body>
+</html>
